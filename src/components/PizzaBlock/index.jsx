@@ -8,15 +8,15 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
 
   console.log(activeSize);
 
-  const [pizzaCount, setPizzaCount] = useState(0); 
+  const [pizzaCount, setPizzaCount] = useState(0);
 
   const onClickAdd = () => {
     setPizzaCount(pizzaCount + 1);
   };
 
-  const onClickDel = () => {
-    setPizzaCount(pizzaCount - 1);
-  };
+  // const onClickDel = () => {
+  //   setPizzaCount(pizzaCount - 1);
+  // };
 
   return (
     <div className="pizza-block">
@@ -65,14 +65,14 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
             <i>{pizzaCount}</i>
           </button>
         </div>
-        <div className="button button--outline2">
+        {/* <div className="button button--outline2">
           <svg onClick={onClickDel} width="32" height="26" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M15.0402 15.04H19.8402C20.3704 15.04 20.8002 15.4698 20.8002 16C20.8002 16.5302 20.3704 16.96 19.8402 16.96H15.0402H12.1602C11.63 16.96 11.2002 16.5302 11.2002 16C11.2002 15.4698 11.63 15.04 12.1602 15.04H15.0402Z"
               fill="#FE5F1E"
             />
           </svg>
-        </div>
+        </div> */}
       </div>
     </div>
   );
