@@ -8,6 +8,17 @@ import PizzaBlock from '../components/PizzaBlock';
 const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [categoryId, setCategoryId] = useState(55);
+  const [sortType, setSortType] = useState(0);
+
+  const onClickCategory = (index) => {
+    setCategoryId(index);
+  };
+
+  // const onClickListItem = (i) => {
+  //   setSortType(i);
+  //   setOpen(false);
+  // };
 
   useEffect(() => {
     fetch('https://813cecfc1deed960.mokky.dev/items')
@@ -16,12 +27,13 @@ const Home = () => {
         setItems(arr);
         setIsLoading(false);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <>
       <div className="content__top">
-        <Categories />
+        <Categories categoryId={categoryId} sortType={sortType} onClickCategory={onClickCategory} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>

@@ -25,7 +25,7 @@ const Sort = () => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
+        <b className="sortName">Сортировка по:</b>
         <span>{sortName}</span>
       </div>
 

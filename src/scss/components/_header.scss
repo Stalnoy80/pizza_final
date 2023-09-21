@@ -10,6 +10,18 @@
     justify-content: space-between;
     @media (max-width: 768px) {
       flex-direction: column;
+
+      .header__cart {
+        margin-top: 40px;
+      }
+      .header__logo h1 {
+        margin-left: 10px;
+      }
+    }
+    @media (max-width: 403px) {
+      .header__logo p {
+        margin-left: 10px;
+      }
     }
   }
 
