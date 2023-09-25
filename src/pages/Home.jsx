@@ -8,33 +8,35 @@ import PizzaBlock from '../components/PizzaBlock';
 const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(55);
-  const [sortType, setSortType] = useState(0);
+  const [categoryId, setCategoryId] = useState(0);
+  const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' });
 
-  const onClickCategory = (index) => {
-    setCategoryId(index);
-  };
+  console.log(categoryId, sortType);
 
   // const onClickListItem = (i) => {
   //   setSortType(i);
   //   setOpen(false);
   // };
 
+  const category = categoryId > 0 ? `category=${categoryId}` : ``;
+  const sortBy = sortType.sortProperty;
+
   useEffect(() => {
-    fetch('https://813cecfc1deed960.mokky.dev/items')
+    setIsLoading(true);
+    fetch(`https://813cecfc1deed960.mokky.dev/items?${category}&sortBy=${sortBy}`)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [categoryId, sortType]); // при обновлении данных помпонент - делается запрос через фетч.
 
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} sortType={sortType} onClickCategory={onClickCategory} />
-        <Sort />
+        <Categories value={categoryId} onChangeCategory={(i) => setCategoryId(i)} />
+        <Sort value={sortType} onChangeSort={(i) => setSortType(i)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

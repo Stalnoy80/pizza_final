@@ -6,8 +6,6 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
   const [activeType, setAсtiveType] = useState(0);
   const [activeSize, setActiveSize] = useState('');
 
-  console.log(activeSize);
-
   const [pizzaCount, setPizzaCount] = useState(0);
 
   const onClickAdd = () => {
