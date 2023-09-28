@@ -1,8 +1,11 @@
 import React from 'react';
 import logoSvg from '../assets/img/pizza.jpg';
 import { Link } from 'react-router-dom';
+import Search from './Search';
 
 const Header = () => {
+  console.log('header перерисовался');
+
   return (
     <div className="header">
       <div className="container">
@@ -14,7 +17,8 @@ const Header = () => {
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
-        </Link>
+        </Link>{' '}
+        <Search />
         <Link to={`/cart`}>
           <div className="header__cart">
             <a href="/cart.html" className="button button--cart">
