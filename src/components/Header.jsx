@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Search from './Search';
 
 const Header = () => {
-  console.log('header перерисовался');
-
   return (
     <div className="header">
       <div className="container">
