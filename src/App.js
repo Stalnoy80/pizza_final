@@ -5,7 +5,7 @@ import Home from './pages/Home';
 export const SearchContext = React.createContext();
 
 function App() {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(''); //привет
   return (
     <div className="wrapper">
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
