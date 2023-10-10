@@ -1,12 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 
 import styles from './search.module.scss';
 import { SearchContext } from '../../App';
+import debounce from 'lodash.debounce';
 
 const Search = () => {
-  const { searchValue, setSearchValue } = useContext(SearchContext); //addEventListener аля
+  const [value, setValue] = useState('');
 
-  console.log('search перерисовался');
+  const { setSearchValue } = useContext(SearchContext); //addEventListener аля
+  const inputRef = useRef();
+
+  const onClickClear = () => {
+    setSearchValue('');
+    setValue('');
+    inputRef.current.focus();
+  };
+
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 1000),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={styles.root}>
@@ -21,20 +41,21 @@ const Search = () => {
           d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
           stroke="#000000"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <input
-        value={searchValue} // контролируемый инпут!
-        onChange={(event) => setSearchValue(event.target.value)} // получаем данные из поисковой строки
+        ref={inputRef}
+        value={value} // контролируемый инпут!
+        onChange={onChangeInput} // получаем данные из поисковой строки
         className={styles.input}
         placeholder="Поиск пиццы..."
       />
-      {searchValue && (
+      {value && (
         <svg
           className={styles.deleteIcon}
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           fill="#000000"
           width="800px"
           height="800px"

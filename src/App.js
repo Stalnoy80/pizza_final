@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './scss/app.scss';
 import Header from './components/Header';
 import Home from './pages/Home';
+import { Provider } from 'react-redux';
+import { store } from './Redux/store';
+
 export const SearchContext = React.createContext();
 
 function App() {
@@ -9,12 +12,14 @@ function App() {
   return (
     <div className="wrapper">
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-        <Header />
-        <div className="content">
-          <div className="container">
-            <Home />
+        <Provider store={store}>
+          <Header />
+          <div className="content">
+            <div className="container">
+              <Home />
+            </div>
           </div>
-        </div>
+        </Provider>
       </SearchContext.Provider>
     </div>
   );
