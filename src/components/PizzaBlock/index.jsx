@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../Redux/cartSlice';
+const typeNames = ['тонкое', 'традиционное'];
 
-const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
-  const typeNames = ['тонкое', 'традиционное'];
-
+const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setAсtiveType] = useState(0);
   const [activeSize, setActiveSize] = useState('');
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
 
-  const [pizzaCount, setPizzaCount] = useState(0);
+  const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAdd = () => {
-    setPizzaCount(pizzaCount + 1);
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
   };
-
-  // const onClickDel = () => {
-  //   setPizzaCount(pizzaCount - 1);
-  // };
 
   return (
     <div className="pizza-block-wrapper">
@@ -61,7 +68,7 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
                 />
               </svg>
               <span>Добавить</span>
-              <i>{pizzaCount}</i>
+              {addedCount === 0 ? '' : <i>{addedCount}</i>}
             </button>
           </div>
           {/* <div className="button button--outline2">

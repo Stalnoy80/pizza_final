@@ -2,9 +2,11 @@ import React from 'react';
 import logoSvg from '../assets/img/pizza.jpg';
 import { Link } from 'react-router-dom';
 import Search from './Search';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
-  console.log('header перерисовался');
+  const { items, totalPrice } = useSelector((state) => state.cart);
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <div className="header">
@@ -17,12 +19,12 @@ const Header = () => {
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
-        </Link>{' '}
+        </Link>
         <Search />
-        <Link to={`/cart`}>
-          <div className="header__cart">
-            <a href="/cart.html" className="button button--cart">
-              <span>520 ₽</span>
+        <div className="header__cart">
+          <Link to={`/cart`}>
+            <div className="button button--cart">
+              <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
               <svg
                 width="18"
@@ -52,10 +54,10 @@ const Header = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>3</span>
-            </a>
-          </div>
-        </Link>
+              <span>{totalCount}</span>
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
