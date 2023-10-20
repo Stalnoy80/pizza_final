@@ -9,21 +9,34 @@ import Test from './pages/Test';
 
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
+import FullPizza from './pages/FullPizza';
+import MainLayout from './layouts/MainLayout';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
 
-    element: <App />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/cart',
-    element: <Cart />,
-  },
-  {
-    path: '/test',
-    element: <Test />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: '',
+        element: <App />,
+        errorElement: <NotFound />,
+      },
+      {
+        path: 'cart',
+        element: <Cart />,
+      },
+      {
+        path: 'test',
+        element: <Test />,
+      },
+      {
+        path: 'pizza/:id',
+        element: <FullPizza />,
+      },
+    ],
   },
 ]);
 
