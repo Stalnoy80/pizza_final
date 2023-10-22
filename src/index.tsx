@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
@@ -9,9 +9,8 @@ import Test from './pages/Test';
 
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
-import FullPizza from './pages/FullPizza';
+import FullPizza from './pages/FullPizza.tsx';
 import MainLayout from './layouts/MainLayout';
-import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
@@ -40,12 +39,18 @@ const router = createBrowserRouter([
   },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>,
-);
+const rootElem = document.getElementById('root');
+
+if (rootElem) {
+  const root = ReactDOM.createRoot(rootElem);
+
+  // const root = ReactDOM.createRoot();
+  root.render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>,
+  );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
