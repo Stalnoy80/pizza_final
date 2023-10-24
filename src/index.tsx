@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFound from './pages/NotFound';
-import Cart from './pages/Cart';
+import NotFound from './pages/NotFound.tsx';
+import Cart from './pages/Cart.tsx';
 import Test from './pages/Test';
 
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
 import FullPizza from './pages/FullPizza.tsx';
-import MainLayout from './layouts/MainLayout';
+import MainLayout from './layouts/MainLayout.tsx';
 
 const router = createBrowserRouter([
   {

@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSort, setSort } from '../Redux/filterSlice';
-import { selectFilter } from '../Redux/cartSlice';
 
-export const sortList = [
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sortList: SortItem[] = [
   { name: 'популярности+', sortProperty: 'rating' },
   { name: 'популярности-', sortProperty: '-rating' },
   { name: 'цене+', sortProperty: 'price' },
@@ -14,23 +18,22 @@ export const sortList = [
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
   const sort = useSelector(selectSort);
-  const onChangeSort = (id) => dispatch(setSort(id));
+  const onChangeSort = (id: SortItem) => dispatch(setSort(id)); // Под вопросом , проверить на TS
 
   const [open, setOpen] = useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortItem) => {
     onChangeSort(obj);
     setOpen(false);
     //при начале работы задает дефолтные значения в меню поиска
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setOpen(false);
-        console.log('click outside');
       }
     };
     document.body.addEventListener('click', handleClickOutside);

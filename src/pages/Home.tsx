@@ -1,16 +1,16 @@
 import React from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import Sort, { sortList } from '../components/Sort';
-import Skeleton from '../components/Skeleton';
-import PizzaBlock from '../components/PizzaBlock';
-import Pagination from '../components/Pagination';
-import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../Redux/filterSlice';
-import Categories from '../components/Categories';
-import { fetchPizzas, selectPizzaData } from '../Redux/pizzaSlice';
-const Home = () => {
+import Sort, { sortList } from '../components/Sort.tsx';
+import Skeleton from '../components/Skeleton.tsx';
+import PizzaBlock from '../components/PizzaBlock/index.tsx';
+import Pagination from '../components/Pagination/index.tsx';
+import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../Redux/filterSlice.js';
+import Categories from '../components/Categories.tsx';
+import { fetchPizzas, selectPizzaData } from '../Redux/pizzaSlice.js';
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -19,11 +19,11 @@ const Home = () => {
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
 
-  const onChangeCategory = React.useCallback((idx) => {
+  const onChangeCategory = (idx: number) => {
     dispatch(setCategoryId(idx));
-  }, []);
+  };
 
-  const onChangePage = (page) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
@@ -31,7 +31,10 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : ``;
     const search = searchValue ? `&title=*${searchValue}*` : '';
 
-    dispatch(fetchPizzas({ category, search, sort }));
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({ category, search, sort }),
+    );
 
     window.scroll(0, 0);
   };
@@ -77,7 +80,7 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     // <Link to={`/pizza/${obj.id}`}>
     <PizzaBlock {...obj} key={obj.id} />
     // </Link>
@@ -89,7 +92,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort value={sort} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
