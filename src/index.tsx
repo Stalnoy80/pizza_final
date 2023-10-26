@@ -8,7 +8,7 @@ import Cart from './pages/Cart.tsx';
 import Test from './pages/Test';
 
 import { Provider } from 'react-redux';
-import { store } from './Redux/store';
+import { store } from './Redux/store.ts';
 import FullPizza from './pages/FullPizza.tsx';
 import MainLayout from './layouts/MainLayout.tsx';
 

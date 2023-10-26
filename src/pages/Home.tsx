@@ -1,18 +1,25 @@
 import React from 'react';
 import qs from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Sort, { sortList } from '../components/Sort.tsx';
 import Skeleton from '../components/Skeleton.tsx';
 import PizzaBlock from '../components/PizzaBlock/index.tsx';
 import Pagination from '../components/Pagination/index.tsx';
-import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../Redux/filterSlice.js';
+import {
+  FilterSliceState,
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../Redux/filterSlice.ts';
 import Categories from '../components/Categories.tsx';
-import { fetchPizzas, selectPizzaData } from '../Redux/pizzaSlice.js';
+import { SearchPizzaParams, fetchPizzas, selectPizzaData } from '../Redux/pizzaSlice.ts';
+import { useAppDispatch } from '../Redux/store.ts';
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
@@ -33,7 +40,7 @@ const Home: React.FC = () => {
 
     dispatch(
       //@ts-ignore
-      fetchPizzas({ category, search, sort }),
+      fetchPizzas({ category, search, sort, currentPage: String(currentPage) }),
     );
 
     window.scroll(0, 0);
@@ -55,16 +62,14 @@ const Home: React.FC = () => {
   // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
 
       const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
 
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
-        }),
-      );
+      if (sort) {
+        params.sort = sort;
+      }
+      dispatch(setFilters(params));
       isSearch.current = true;
     }
   }, []);
