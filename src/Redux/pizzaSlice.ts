@@ -1,14 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from './store';
+import { Sort } from './filterSlice';
 
 export const fetchPizzas = createAsyncThunk<Pizza[], Record<string, string>>(
   'pizza/fetchPizzasStatus',
   async (params) => {
-    const { category, search, sort } = params;
+    const { category, search, sortBy } = params;
 
     const { data } = await axios.get<Pizza[]>(
-      `https://813cecfc1deed960.mokky.dev/items?${category}&sortBy=${sort.sortProperty}&${search}`,
+      `https://813cecfc1deed960.mokky.dev/items?${category}&sortBy=${sortBy}&${search}`,
     );
 
     return data;
@@ -38,7 +39,8 @@ export interface PizzaSliceState {
 export type SearchPizzaParams = {
   category: string;
   search: string;
-  sort: string;
+  sortBy: string;
+  currentPage: number;
 };
 
 const initialState: PizzaSliceState = {

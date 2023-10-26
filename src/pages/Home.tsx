@@ -34,63 +34,58 @@ const Home: React.FC = () => {
     dispatch(setCurrentPage(page));
   };
 
+  // Если изменили параметры и был первый рендер
+  // React.useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       sortProperty: sort.sortProperty,
+  //       categoryId,
+  //       currentPage,
+  //     });
+
+  //     navigate(`?${queryString}`);
+  //   }
+  //   isMounted.current = true;
+  // }, [categoryId, sort.sortProperty, currentPage]);
+
+  // // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
+  // React.useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
+  //     const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
+
+  //     dispatch(
+  //       setFilters({
+  //         searchValue: params.search,
+  //         categoryId: Number(params.category),
+  //         currentPage: Number(params.currentPage),
+  //         sort: sort || sortList[1],
+  //       }),
+  //     );
+  //   }
+  //   isSearch.current = true;
+  // }, []);
+
   const getPizzas = async () => {
+    const sortBy = sort.sortProperty;
     const category = categoryId > 0 ? `category=${categoryId}` : ``;
     const search = searchValue ? `&title=*${searchValue}*` : '';
-
     dispatch(
       //@ts-ignore
-      fetchPizzas({ category, search, sort, currentPage: String(currentPage) }),
+      fetchPizzas({ category, search, sortBy, currentPage: String(currentPage) }),
     );
 
     window.scroll(0, 0);
   };
-  // Если изменили параметры и был первый рендер
-  React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        sortProperty: sort.sortProperty,
-        categoryId,
-        currentPage,
-      });
-
-      navigate(`?${queryString}`);
-    }
-    isMounted.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
-
-  // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-
-      const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
-
-      if (sort) {
-        params.sort = sort;
-      }
-      dispatch(setFilters(params));
-      isSearch.current = true;
-    }
-  }, []);
 
   // Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (!isSearch.current) {
-      getPizzas();
-    }
+    getPizzas();
 
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj: any) => (
-    // <Link to={`/pizza/${obj.id}`}>
-    <PizzaBlock {...obj} key={obj.id} />
-    // </Link>
-  ));
-
+  const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (
