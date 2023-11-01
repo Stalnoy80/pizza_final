@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addItem, minusItem, removeItem } from '../../Redux/cartSlice.ts';
+import { addItem, minusItem, removeItem } from '../Redux/cartSlice.ts';
 
 type CartItemProps = {
   id: number;
@@ -42,6 +42,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, imageUrl, type, size, pr
       </div>
       <div className="cart__item-count">
         <button
+          disabled={count === 1}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus">
           <svg

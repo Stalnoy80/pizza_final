@@ -1,7 +1,7 @@
 import React from 'react';
 // import NotFoundBlock from '../components/NotFoundBlock';
 import { Link } from 'react-router-dom';
-import CartItem from '../components/Search/CartItem.tsx';
+import CartItem from '../components/CartItem.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearItems, selectCart } from '../Redux/cartSlice.ts';
 import CartEmpty from '../components/CartEmpty.tsx';
