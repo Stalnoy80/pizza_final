@@ -18,7 +18,7 @@ export interface CartSliceState {
 
 const initialState: CartSliceState = {
   totalPrice: 0,
-  items: [],
+  items: JSON.parse(localStorage.getItem('cart')) || [],
 };
 
 export const cartSlice = createSlice({
