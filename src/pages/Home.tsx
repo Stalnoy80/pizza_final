@@ -13,10 +13,6 @@ const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
 
-  import('../components/utils/math.ts').then((math) => {
-    console.log(math.add(16, 26));
-  });
-
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
 

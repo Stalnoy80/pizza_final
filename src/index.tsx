@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFound from './pages/NotFound.tsx';
-import Cart from './pages/Cart.tsx';
-import Test from './pages/Test';
-
+// import NotFound from './pages/NotFound.tsx';
+// import Cart from './pages/Cart.tsx';
+// import FullPizza from './pages/FullPizza.tsx';
 import { Provider } from 'react-redux';
 import { store } from './Redux/store.ts';
-import FullPizza from './pages/FullPizza.tsx';
 import MainLayout from './layouts/MainLayout.tsx';
+
+const Cart = React.lazy(() => import(/* webpackChunkName: "Cart" */ './pages/Cart.tsx'));
+const FullPizza = React.lazy(
+  () => import(/* webpackChunkName: "FullPizza" */ './pages/FullPizza.tsx'),
+);
+const NotFound = React.lazy(
+  () => import(/* webpackChunkName: "NotFound" */ './pages/NotFound.tsx'),
+);
 
 const router = createBrowserRouter([
   {
@@ -21,19 +27,28 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <App />,
-        errorElement: <NotFound />,
+        errorElement: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <NotFound />
+          </React.Suspense>
+        ),
       },
       {
         path: 'cart',
-        element: <Cart />,
+        element: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Cart />
+          </React.Suspense>
+        ),
       },
-      {
-        path: 'test',
-        element: <Test />,
-      },
+
       {
         path: 'pizza/:id',
-        element: <FullPizza />,
+        element: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <FullPizza />
+          </React.Suspense>
+        ),
       },
     ],
   },
